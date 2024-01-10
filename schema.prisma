@@ -19,8 +19,8 @@ model User {
   passwordHash String?
   salt String?
   photoUrl String?
-  recentIssuesViewed Json[]
-  issuesAssigned Json[]
+  recentIssues Json[]
+  assignedIssues Issue[] @relation("issueAssignee")
   role String? @db.VarChar(50)
   dateCreated DateTime @default(now())
   projectsAsCreator Project[] @relation("projectCreator")
@@ -28,7 +28,6 @@ model User {
   projectAsAdmin Project[] @relation("projectAdmin")
   projectLead Project[] @relation("projectLead")
   projectsDefaultAssignee Project[] @relation("projectDefaultAssignee")
-  assignedIssues Issue[] @relation("issueAssignee")
   reportedIssues Issue[] @relation("issueReported")
   comments Comment[]
   activities Activity[]
@@ -45,8 +44,8 @@ model Project {
   key String @db.VarChar(10)
   url String @db.VarChar(150)
   creator String
-  creatorRef User @relation( "projectMember", fields: [creator],references: [email])
-  people User[] @relation("projectCreator")
+  creatorRef User @relation( "projectCreator", fields: [creator],references: [email])
+  people User[] @relation("projectMember")
   admins User[] @relation("projectAdmin")
   lead String
   leadRef User @relation("projectLead", fields: [lead], references: [email])
@@ -74,7 +73,7 @@ model Issue {
   priority Priority
   status String
   tags String[]
-  attachments Json
+  attachments Json[]
   assignee String
   assigneeRef User @relation("issueAssignee", fields: [assignee], references: [email])
   reporter String
