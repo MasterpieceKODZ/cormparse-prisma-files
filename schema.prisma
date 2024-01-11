@@ -11,23 +11,23 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement()) //
-  email String @unique @db.VarChar(100) //
-  firstname String @db.VarChar(50) //
-  lastname String @db.VarChar(50) //
-  username String @unique @db.VarChar(100) //
-  passwordHash String? //
-  salt String? //
-  photoUrl String? //
-  recentIssues Json[] //
-  assignedIssues Issue[] @relation("issueAssignee") //
-  role String? @db.VarChar(50) //
-  dateCreated DateTime @default(now()) //
-  projectsAsCreator Project[] @relation("projectCreator") //
-  projectsAsMember Project[] @relation("projectMember") //
-  projectsAsAdmin Project[] @relation("projectAdmin") //
-  projectsAsLead Project[] @relation("projectLead") //
-  projectsAsDefaultAssignee Project[] @relation("projectDefaultAssignee") //
+  id Int @id @default(autoincrement())
+  email String @unique @db.VarChar(100)
+  firstname String @db.VarChar(50)
+  lastname String @db.VarChar(50)
+  username String @unique @db.VarChar(100)
+  passwordHash String?
+  salt String?
+  photoUrl String?
+  recentIssues Issue[] @relation("recentIssuesBtActivity")
+  assignedIssues Issue[] @relation("issueAssignee")
+  role String? @db.VarChar(50)
+  dateCreated DateTime @default(now())
+  projectsAsCreator Project[] @relation("projectCreator")
+  projectsAsMember Project[] @relation("projectMember")
+  projectsAsAdmin Project[] @relation("projectAdmin")
+  projectsAsLead Project[] @relation("projectLead")
+  projectsAsDefaultAssignee Project[] @relation("projectDefaultAssignee")
   reportedIssues Issue[] @relation("issueReported")
   comments Comment[]
   activities Activity[]
@@ -91,6 +91,7 @@ model Issue {
   updatedAt DateTime
   comments Comment[]
   activities Activity[]
+  recentActors User[] @relation("recentIssuesBtActivity")
 
 
 
