@@ -40,9 +40,9 @@ model User {
 model Project {
   id Int @id @default(autoincrement())
   name String @db.VarChar(30)
-  description String @db.Text
+  description String? @db.Text
   key String @db.VarChar(10)
-  url String @db.VarChar(150)
+  url String? @db.VarChar(150)
   creator String
   creatorRef User @relation( "projectCreator", fields: [creator],references: [email])
   people User[] @relation("projectMember")
