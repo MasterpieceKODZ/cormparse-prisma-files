@@ -71,7 +71,7 @@ model Issue {
   description String @db.Text
   type IssueType
   priority Priority
-  status String
+  status String @default("to-do")
   tags String[]
   attachments Json[]
   assignee String
@@ -80,14 +80,14 @@ model Issue {
   reporterRef User @relation("issueReported", fields: [reporter], references: [email])
   project Int
   projectRef Project @relation(fields: [project], references: [id])
-  parentIssue Int
-  parentIssueRef Issue @relation("linkedIssue", fields: [parentIssue], references: [id])
+  parentIssue Int?
+  parentIssueRef Issue? @relation("linkedIssue", fields: [parentIssue], references: [id])
   childIssues Issue[] @relation("linkedIssue")
-  superIssue Int
-  superIssueRef Issue @relation("issuesSubtask", fields: [superIssue], references: [id])
+  superIssue Int?
+  superIssueRef Issue? @relation("issuesSubtask", fields: [superIssue], references: [id])
   subTasks Issue[] @relation("issuesSubtask")
   reportedAt DateTime @default(now()) 
-  dueDate DateTime
+  dueDate DateTime?
   updatedAt DateTime
   comments Comment[]
   activities Update[]
