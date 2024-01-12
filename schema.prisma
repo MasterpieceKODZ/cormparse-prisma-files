@@ -30,7 +30,7 @@ model User {
   projectsAsDefaultAssignee Project[] @relation("projectDefaultAssignee")
   reportedIssues Issue[] @relation("issueReported")
   comments Comment[]
-  activities Activity[]
+  activities Update[]
 
 
   @@index([email])
@@ -90,7 +90,7 @@ model Issue {
   dueDate DateTime
   updatedAt DateTime
   comments Comment[]
-  activities Activity[]
+  activities Update[]
   recentActors User[] @relation("recentIssuesBtActivity")
 
 
@@ -140,26 +140,16 @@ model Comment {
   unlikes Int @default(0)
   issue Int
   issueRef Issue @relation(fields: [issue], references: [id])
-  activity Activity?
 
 }
 
-model Activity {
+model Update {
   id Int @id @default(autoincrement())
-  action ActivityAction
   description String @db.Text
-  comment Int? @unique
-  commentRef Comment? @relation(fields: [comment], references: [id])
   actor String
   actorRef User @relation(fields: [actor], references: [email])
   issue Int
   issueRef Issue @relation(fields: [issue],references: [id])
 
   @@index([actor])
-  @@index([comment])
-}
-
-enum ActivityAction {
-  comment
-  update
 }
