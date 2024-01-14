@@ -69,8 +69,8 @@ model Issue {
   summary String @db.VarChar(150)
   key String @db.VarChar(15)
   description String @db.Text
-  type IssueType
-  priority Priority
+  type String
+  priority String
   status String @default("to-do")
   tags String[]
   attachments Json[]
@@ -103,27 +103,6 @@ model Issue {
   @@index([reporter])
   @@index([assignee])
 
-}
-
-enum  IssueLinkType {
-  child
-  parent
-}
-
-enum Priority {
-  highest
-  high
-  mid
-  low
-}
-
-enum IssueType {
-  improvement
-  task
-  sub_task
-  bug
-  feature
-	@@map("Type")
 }
 
 model Comment {
